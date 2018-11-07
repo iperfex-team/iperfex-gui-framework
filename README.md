@@ -1,5 +1,6 @@
-More info: https://github.com/iperfex-team/iperfex-gui-framework 
-and https://hub.docker.com/r/iperfex/iperfex-gui-framework/
+## More info: 
+* https://github.com/iperfex-team/iperfex-gui-framework 
+* https://hub.docker.com/r/iperfex/iperfex-gui-framework
 
 ## Modules
 
