@@ -1,4 +1,4 @@
-# IPERFEX GUI FRAMEWORK
+More info: https://github.com/iperfex-team/iperfex-gui-framework and https://hub.docker.com/r/iperfex/iperfex-gui-framework/
 
 ## Modules
 
@@ -25,6 +25,52 @@
 
 ## WEB Credentials
 
-User: admin
-
+Host: https://localhost:4443
+User: admin 
 Pass: PassWord.2o17
+
+## Compose docker-compose.yml
+```bash
+version: '3.6'
+services:
+  panel:
+    image: iperfex/iperfex-gui-framework:latest
+    ports:
+      - 0.0.0.0:4443:443
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PW}      
+      PANEL_DB_HOST: db
+      PANEL_DB_NAME: iperfexpbx
+      PANEL_DB_USER: asteriskuser
+      PANEL_DB_PASSWORD: ${PANELGUI_PW}
+    depends_on:
+      - db
+    networks:
+      - iperfex-network
+  db:
+    image: mariadb:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+      - ./iperfex-gui-framework.sql:/docker-entrypoint-initdb.d/1-init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PW}
+      MYSQL_DATABASES: "iperfexpbx isurveyx"
+      MYSQL_USER: asteriskuser
+      MYSQL_PASSWORD: ${PANELGUI_PW}
+    networks:
+      - iperfex-network
+networks:
+  iperfex-network:
+      driver: bridge
+```
+
+## Run
+```bash
+cd /usr/src
+git clone https://github.com/iperfex-team/iperfex-gui-framework.git
+cd iperfex-gui-framework
+chmod 777 docker-entrypoint.sh
+docker-compose up -d
+````
