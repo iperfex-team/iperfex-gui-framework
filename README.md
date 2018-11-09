@@ -58,7 +58,7 @@ services:
   db:
     image: mariadb:latest
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - ./docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
       - ./iperfex-gui-framework.sql:/docker-entrypoint-initdb.d/1-init.sql
