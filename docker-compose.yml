@@ -1,9 +1,13 @@
 version: '3.6'
 services:
   panel:
+    container_name: iperfex-gui-framework
     image: iperfex/iperfex-gui-framework:latest
     ports:
       - 0.0.0.0:4443:443
+    volumes:
+      - ./build/iperfex-gui-framework/var/www:/var/www
+      - ./build/iperfex-gui-framework/usr/share/iperfex:/usr/share/iperfex
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PW}      
       PANEL_DB_HOST: db
@@ -30,4 +34,4 @@ services:
       - iperfex-network
 networks:
   iperfex-network:
-      driver: bridge
+        driver: bridge

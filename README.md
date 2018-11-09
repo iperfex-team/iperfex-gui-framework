@@ -38,11 +38,15 @@ Pass: PassWord.2o17
 version: '3.6'
 services:
   panel:
+    container_name: iperfex-gui-framework
     image: iperfex/iperfex-gui-framework:latest
     ports:
       - 0.0.0.0:4443:443
+    volumes:
+      - ./build/iperfex-gui-framework/var/www:/var/www
+      - ./build/iperfex-gui-framework/usr/share/iperfex:/usr/share/iperfex
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PW}      
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PW}
       PANEL_DB_HOST: db
       PANEL_DB_NAME: iperfexpbx
       PANEL_DB_USER: asteriskuser
@@ -67,7 +71,7 @@ services:
       - iperfex-network
 networks:
   iperfex-network:
-      driver: bridge
+        driver: bridge
 ```
 
 ## Run
@@ -77,4 +81,6 @@ git clone https://github.com/iperfex-team/iperfex-gui-framework.git
 cd iperfex-gui-framework
 chmod 777 docker-entrypoint.sh
 docker-compose up -d
+docker-compose exec panel /usr/bin/chown apache:apache -R /var/www/html/*
+docker-compose exec panel /usr/bin/chown apache:apache -R /usr/share/iperfex/
 ````
